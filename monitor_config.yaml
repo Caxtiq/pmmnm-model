@@ -1,0 +1,56 @@
+# Traffic Monitoring Configuration
+
+# API Configuration
+api:
+  endpoint: "http://localhost:3000/api/sensor-data"  # Change to your API endpoint
+  timeout: 10  # seconds
+  retry_attempts: 3
+
+# Monitoring Locations
+locations:
+  - id: "sensor-intersection-01"
+    name: "Main Street Intersection"
+    description: "Intersection at Main St and 1st Ave"
+    coordinates:
+      lat: 10.762622
+      lon: 106.660172
+    
+    density_threshold: 15  # Number of vehicles to trigger alert
+    
+    video_source: 0  # 0 for default camera,
+    
+    confidence_threshold: 0.5 
+
+    check_interval: 30 
+    
+    count_vehicle_types:
+      - bicycle
+      - bus
+      - car
+      - container_truck
+      - fire_engine
+      - motorcycle
+      - truck
+      - van
+
+model:
+  weights: "runs/detect/train/weights/best.pt"
+  imgsz: 640  # Image size for inference
+  device: 0  # 0 for GPU, 'cpu' for CPU
+  
+  # Performance settings
+  half: false  # Use FP16 half-precision inference (faster on GPU)
+  max_det: 300  # Maximum detections per image
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  save_detections: true  # Save detection images
+  detections_dir: "detections"  # Directory to save detection images
+  log_file: "monitoring.log"
+
+# Display settings (for debugging)
+display:
+  show_video: true  # Show video window with detections
+  save_video: false  # Save output video
+  output_dir: "output_videos"
